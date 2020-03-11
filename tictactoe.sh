@@ -44,5 +44,14 @@ function Toss(){
 	fi
 }
 Toss
-
-
+function boardShow(){
+	for (( row=0; row < ROWNUMBER; row++ ))
+   do
+      for (( col=0; col < COLNUMBER; col++ ))
+      do
+         printf "__ "
+      done
+	echo " "
+   done
+}
+boardShow

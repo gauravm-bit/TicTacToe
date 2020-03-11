@@ -17,7 +17,7 @@ function reset() {
 	do
 		for (( col=0; col <= COLNUMBER; col++ ))
 		do
-			board[$row,$col]=""
+			board[$row,$col]=" "
 		done
 	done
 }
@@ -49,9 +49,17 @@ function boardShow(){
    do
       for (( col=0; col < COLNUMBER; col++ ))
       do
-         printf "__ "
+			if (( $col < 2 ))
+			then
+         	printf "${board[$row,$col]} | "
+			else
+				printf "${board[$row,$col]}"
+			fi
       done
-	echo " "
+	if (( $row < 2 ))
+	then
+		printf "\n----------\n"
+	fi
    done
 }
 boardShow

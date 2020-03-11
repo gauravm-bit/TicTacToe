@@ -6,6 +6,9 @@ echo "Welcome to tictactoe problem"
 ROWNUMBER=3
 COLNUMBER=3
 
+#variables
+assign=$((RANDOM%2))
+
 declare -A board
 
 function reset() {
@@ -18,5 +21,17 @@ function reset() {
 	done
 }
 reset
+
+function assignLetter() {
+	if (( $assign == 0 ))
+	then
+		Player1="X"
+		Player2="O"
+	else
+		Player1="O"
+		Player2="X"
+	fi
+}
+assignLetter
 
 

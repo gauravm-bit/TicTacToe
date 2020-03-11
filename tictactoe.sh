@@ -8,6 +8,7 @@ COLNUMBER=3
 
 #variables
 assign=$((RANDOM%2))
+toss=$((RANDOM%2))
 
 declare -A board
 
@@ -33,5 +34,15 @@ function assignLetter() {
 	fi
 }
 assignLetter
+
+function Toss(){
+	if (( $toss == 0 ))
+	then
+		echo "Player 1 has won the toss"
+	else
+		echo "Player 2 has won the toss"
+	fi
+}
+Toss
 
 

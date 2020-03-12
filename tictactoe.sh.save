@@ -1,0 +1,85 @@
+#!/bin/bash -x
+
+echo "Welcome to tictactoe problem"
+
+#Constants
+ROWNUMBER=3
+COLNUMBER=3
+
+#variables
+assign=$((RANDOM%2))
+toss=$((RANDOM%2))
+
+declare -A board
+
+function reset() {
+	for (( row=0; row <= ROWNUMBER; row++ ))
+	do
+		for (( col=0; col <= COLNUMBER; col++ ))
+		do
+			board[$row,$col]=" "
+		done
+	done
+}
+reset
+
+function assignLetter() {
+	if (( $assign == 0 ))
+	then
+		Player1="X"
+		Player2="O"
+	else
+		Player1="O"
+		Player2="X"
+	fi
+}
+assignLetter
+
+function Toss(){
+	if (( $toss == 0 ))
+	then
+		echo "Player 1 has won the toss"
+	else
+		echo "Player 2 has won the toss"
+	fi
+}
+Toss
+function boardShow(){
+	for (( row=0; row < ROWNUMBER; row++ ))
+   do
+      for (( col=0; col < COLNUMBER; col++ ))
+      do
+			if (( $col < 2 ))
+			then
+         	printf "${board[$row,$col]} | "
+			else
+				printf "${board[$row,$col]}"
+			fi
+      done
+	if (( $row < 2 ))
+	then
+		printf "\n----------\n"
+	fi
+   done
+}
+boardShow
+
+function checkwin() {
+	rows=0
+	column=0
+	playerinput=$1
+	flag=false
+
+	if [[ ${board[$row,$column]}${board[$(($row+1)),$(($column+1))]}${board[$(($row+2)),$(($column+2))} ==
+			 $playerinput$playerinput$playerinput ]]
+	then
+		flag=true
+		echo $flag
+	elif [[ ${board[$row,$(($column+2))]}${board[$(($row+1)),$(($column+2))]}${board[$(($row+2)),$(($column))} ==
+          $playerinput$playerinput$playerinput ]]
+		flag=true
+		echo $flag
+	elif [[ ${board[$row,$column]}${board[$(($row,$(($column+1))]}${board[$(($row+2)),$(($column+2))} ==
+          $playerinput$playerinput$playerinput ]]
+
+

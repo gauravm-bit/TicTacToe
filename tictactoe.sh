@@ -112,86 +112,31 @@ function checkWin(){
 	echo "$flag"
 }
 function playerTurn(){
+		count=1
 		if [[	$playCount == $TOTALCOUNT ]]
 		then
 			echo "Match tie"
+			exit
 		fi
 		read -p "Player turn, Enter player position :" position
+		for (( i=0; i<$ROWNUMBER; i++ ))
+		do
+			for (( j=0; j<$COLNUMBER; j++))
+			do
+				if [[ $count == $position ]]
+				then
+					if [[ ${board[$i,$j]} == " " ]]
+					then
+						board[$i,$j]=$player
+					else
+						printf "\nInvalid move,Enter again\n"
+						playerTurn
+					fi
+				fi
+			((count++))
+			done
+		done
 
-		case $position in
-		1) if [[ ${board[0,0]} == " " ]]
-		   then
-				 board[0,0]=$player
-		   else
-				 printf "\ninvaild position Enter again\n"
-				 playerTurn
-		   fi
-			;;
-		2) if [[ ${board[0,1]} == " " ]]
-		   then
-				 board[0,1]=$player
-		   else
-				 printf "\ninvaild position Enter again\n"
-				 playerTurn;
-		   fi
-      	;;
-		3) if [[ ${board[0,2]} == " " ]]
-		   then
-				 board[0,2]=$player
-		   else
-				 printf "\ninvaild position Enter again\n"
-				 playerTurn
-		   fi
-      	;;
-		4) if [[ ${board[1,0]} == " " ]]
-		   then
-				board[1,0]=$player
-		   else
-				 printf "\ninvaild position Enter again\n"
-		   playerTurn
-		   fi
-      	;;
-		5) if [[ ${board[1,1]} == " " ]]
-		   then
-				 board[1,1]=$player
-		   else
-				 printf "\ninvaild position Enter again\n"
-			playerTurn
-		   fi
-      	;;
-		6) if [[ ${board[1,2]} == " " ]]
-		   then
-				 board[1,2]=$player
-		   else
-				 printf "\ninvaild position Enter again\n"
-			playerTurn
-		   fi
-      	;;
-		7) if [[ ${board[2,0]} == " " ]]
-		   then
-				 board[2,0]=$player
-			 else
-				 printf "\ninvaild position Enter again\n"
-			playerTurn
-		   fi
-      	;;
-		8) if [[ ${board[2,1]} == " " ]]
-		   then
-				 board[2,1]=$player
-		   else
-				printf "\ninvaild position Enter again\n" 
-			playerTurn
-		 	fi
-      	;;
-		9) if [[ ${board[2,2]} == " " ]]
-		   then
-				board[2,2]=$player;
-			else
-				printf "\ninvaild position Enter again\n"
-			playerTurn
-			fi
-      	;;
-		esac
 	((playCount++))
 	 boardShow
 	if	[[ $(checkWin $player) == true ]]
@@ -201,88 +146,85 @@ function playerTurn(){
 	fi
 	computerTurn
 }
+
+function winningLogic(){
+    input=$1
+   for (( i=0; i<$ROWNUMBER; i++ ))
+   do
+      if [[ ${board[$i,0]}${board[$i,1]} == $input$input ]]
+      then
+         if [[ ${board[$i,2]} == " " ]]
+         then
+            board[$i,2]=$input
+            flag="true"
+         fi
+      elif [[ ${board[$i,1]}${board[$i,2]} == $input$input ]]
+		then
+			if [[ ${board[$i,0]} == " " ]]
+			then
+				board[$i,0]=$input
+				flag="true"
+			fi
+		elif [[ ${board[$i,2]}${board[$i,0]} == $input$input ]]
+		then
+			if [[ ${board[$i,0]} == " " ]]
+			then
+				board[$i,0]=$input
+				flag="true"
+			fi
+		fi
+	done
+	for (( i=0; i<$COLNUMBER; i++ ))
+	do
+		if [[ ${board[0,$i]}${board[1,$i]} == $input$input ]]
+		then
+			if [[ ${board[2,$i]} == " " ]]
+			then
+				board[2,$i]=$input
+				flag="true"
+			fi
+		elif [[ ${board[1,$i]}${board[2,$i]} == $input$input ]]
+		then
+			if [[ ${board[0,$i]} == " " ]]
+			then
+				board[0,$i]=$input
+				flag="true"
+			fi
+		elif [[ ${board[2,$i]}${board[0,$i]} == $input$input ]]
+		then
+			if [[ ${board[1,$i]} == " " ]]
+			then
+				board[1,$i]=$input
+				flag="true"
+			fi
+	done
 function computerTurn(){
+		count=0
       if [[ $playCount == $TOTALCOUNT ]]
       then
          echo "Match tie"
+      exit
       fi
       printf "\nComputer turn\n"
 		position=$(( RANDOM%9 + 1 ))
 
-      case $position in
-      1) if [[ ${board[0,0]} == " " ]]
-		   then
-				 board[0,0]=$computer
-			else
-				 printf "\ninvaild position\n"
-				 computerTurn
-		   fi
-      	;;
-      2) if [[ ${board[0,1]} == " " ]]
-		   then
-				 board[0,1]=$computer
-		   else
-				 printf "\ninvaild position\n"
-				 computerTurn
-		   fi
-     	 	;;
-      3) if [[ ${board[0,2]} == " " ]]
-		   then
-				 board[0,2]=$computer
-		   else
-				printf "\ninvaild position\n"
-				computerTurn
-			fi
-      	;;
-      4) if [[ ${board[1,0]} == " " ]]
-		   then
-				 board[1,0]=$computer
-		   else
-				printf "\ninvaild position\n"
-				computerTurn
-			fi
-     		;;
-      5) if [[ ${board[1,1]} == " " ]]
-		   then
-				 board[1,1]=$computer
-		   else
-				printf "\ninvaild position\n"
-				computerTurn
-			fi
-      	;;
-      6) if [[ ${board[1,2]} == " " ]]
-		   then
-				 board[1,2]=$computer;
-		   else
-				 printf "\ninvaild position\n"
-				 computerTurn
-		   fi
-      	;;
-      7) if [[ ${board[2,0]} == " " ]]
-		   then
-				 board[2,0]=$computer
-			else
-				printf "\ninvaild position\n"
-				computerTurn
-		   fi
-      	;;
-      8) if [[ ${board[2,1]} == " " ]]
-		   then
-				 board[2,1]=$computer
-		   else
-				printf "\ninvaild position\n"
-				computerTurn
-			fi
-      	;;
-      9) if [[ ${board[2,2]} == " " ]]
-		   then
-				board[2,2]=$computer
-		   else
-				printf "\ninvaild position\n"
-				computerTurn
-			fi
-      	;;
-      esac
+		for (( i=0; i<$ROWNUMBER; i++ ))
+      do
+         for (( j=0; j<$COLNUMBER; j++ ))
+         do
+            if [[ $count == $position ]]
+            then
+               if [[ ${board[$i,$j]} == " " ]]
+               then
+                  board[$i,$j]=$computer
+               else
+                  printf "\nInvalid position by computer\n"
+                  computerTurn
+               fi
+            fi
+         ((count++))
+         done
+      done
    ((playCount++))
 	boardShow
    if [[ $(checkWin $computer) == true ]]
@@ -292,6 +234,7 @@ function computerTurn(){
    fi
    playerTurn
 }
+
 function Toss(){
    if (( $toss == 0 ))
    then

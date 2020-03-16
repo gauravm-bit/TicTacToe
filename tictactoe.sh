@@ -103,6 +103,113 @@ function checkDiagonal(){
 	fi
 }
 
+function computerWinLogic(){
+	input=$1
+   for (( i=0; i<$ROWNUMBER; i++ ))
+   do
+      if [[ ${board[$i,0]}${board[$i,1]} == $input$input ]]
+      then
+         if [[ ${board[$i,2]} == " " ]]
+         then
+            board[$i,2]="$input"
+            flag="true"
+					break
+         fi
+      elif [[ ${board[$i,1]}${board[$i,2]} == $input$input ]]
+		then
+			if [[ ${board[$i,0]} == " " ]]
+			then
+				board[$i,0]="$input"
+				flag="true"
+					break
+			fi
+		elif [[ ${board[$i,2]}${board[$i,0]} == $input$input ]]
+		then
+			if [[ ${board[$i,0]} == " " ]]
+			then
+				board[$i,0]="$input"
+				flag="true"
+					break
+			fi
+		fi
+	done
+	for (( i=0; i<$COLNUMBER; i++ ))
+	do
+		if [[ ${board[0,$i]}${board[1,$i]} == $input$input ]]
+		then
+			if [[ ${board[2,$i]} == " " ]]
+			then
+				board[2,$i]="$input"
+				flag="true"
+					break
+			fi
+		elif [[ ${board[1,$i]}${board[2,$i]} == $input$input ]]
+		then
+			if [[ ${board[0,$i]} == " " ]]
+			then
+				board[0,$i]="$input"
+				flag="true"
+					break
+			fi
+		elif [[ ${board[2,$i]}${board[0,$i]} == $input$input ]]
+		then
+			if [[ ${board[1,$i]} == " " ]]
+			then
+				board[1,$i]="$input"
+				flag="true"
+					break
+			fi
+		elif [[ ${board[0,0]}${board[1,1]} == $input$input ]]
+		then
+			if [[ ${board[2,2]} == " " ]]
+			then
+				board[2,2]="$input"
+				flag="true"
+					break
+			fi
+		elif 	[[ ${board[1,1]}${board[2,2]} == $input$input ]]
+		then
+			if [[ ${board[0,0]} == " " ]]
+			then
+				board[0,0]="$input"
+				flag="true"
+					break
+			fi
+		elif [[ ${board[2,2]}${board[0,0]} == $input$input ]]
+		then
+			if [[ ${board[1,1]} == " " ]]
+			then
+				board[1,1]="$input"
+				flag="true"
+					break
+			fi
+		elif [[ ${board[0,2]}${board[1,1]} == $input$input ]]
+		then
+			if	[[ ${board[2,0]} == " " ]]
+			then
+				board[2,0]="$input"
+				flag="true"
+					break
+			fi
+		elif [[ ${board[1,1]}${board[2,0]} == $input$input ]]
+		then
+			if	[[ ${board[0,2]} == " " ]]
+			then
+				board[0,2]="$input"
+				flag="true"
+					break
+			fi
+		elif [[ ${board[2,0]}${board[0,2]} == $input$input ]]
+		then
+			if [[ $board[1,1]} == " " ]]
+			then
+				board[1,1]="$input"
+				flag="true"
+					break
+			fi
+		fi
+	done
+}
 
 
 function checkWin(){

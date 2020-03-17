@@ -318,6 +318,26 @@ function computerWinLogic(){
 		fi
 	done
 }
+
+function checkCornerCondition(){
+	if [[ ${board[0,0]} == " " ]]
+	then
+		board[0,0]="$computer"
+		flag2="true"
+	elif [[ ${board[0,2]} == " " ]]
+	then
+		board[0,2]="$computer"
+		flag2="true"
+	elif	[[ ${board[2,0]} == " " ]]
+	then
+		board[2,0]="$computer"
+		flag2="true"
+	elif	[[ ${board[2,2]} == " " ]]
+	then
+		board[2,2]="$computer"
+		flag2="true"
+	fi
+}
 function checkWin(){
    playerinput=$1
    flag=false
@@ -383,25 +403,29 @@ function computerTurn(){
 		computerBlockLogic $player
 		if [[ $flag1 == flase ]]
 		then
-      	position=$(( RANDOM%9 + 1 ))
+			checkCornerCondition
+			if [[ $flag2 == flase ]]
+			then
+      		position=$(( RANDOM%9 + 1 ))
 
-      	for (( i=0; i<$ROWNUMBER; i++ ))
-      	do
-         	for (( j=0; j<$COLUMNNUMBER; j++ ))
-         	do
-            	if [[ $count == $position ]]
-            	then
-               	if [[ ${board[$i,$j]} == " " ]]
-               	then
-                  	board[$i,$j]=$computer
-               	else
-                  	printf "\nInvalid position by computer\n"
-                  	computerTurn
-               	fi
-            	fi
-         	((count++))
-         	done
-      	done
+      		for (( i=0; i<$ROWNUMBER; i++ ))
+      		do
+         		for (( j=0; j<$COLUMNNUMBER; j++ ))
+         		do
+            		if [[ $count == $position ]]
+            		then
+               		if [[ ${board[$i,$j]} == " " ]]
+               		then
+                  		board[$i,$j]=$computer
+               		else
+                  		printf "\nInvalid position by computer\n"
+                  		computerTurn
+               		fi
+            		fi
+         		((count++))
+         		done
+      		done
+			fi
 		fi
 	fi
    	((playCount++))

@@ -133,7 +133,7 @@ function computerWinLogic(){
 			fi
 		fi
 	done
-	for (( i=0; i<$COLNUMBER; i++ ))
+	for (( i=0; i<$COLUMNNUMBER; i++ ))
 	do
 		if [[ ${board[0,$i]}${board[1,$i]} == $input$input ]]
 		then
@@ -211,7 +211,6 @@ function computerWinLogic(){
 	done
 }
 
-
 function checkWin(){
    playerinput=$1
    flag=false
@@ -262,8 +261,16 @@ function playerTurn(){
 }
 
 function computerTurn(){
+		flag="false"
       count=1
 		tieCheck $playCount
+		computerWinLogic $computer
+		if [[ $flag == true ]]
+		then
+			boardShow
+			printf "\ncomputer won"
+			exit
+		else
       printf "\nComputer turn\n"
       position=$(( RANDOM%9 + 1 ))
 
@@ -284,6 +291,7 @@ function computerTurn(){
          ((count++))
          done
       done
+		fi
    ((playCount++))
    boardShow
    if [[ $(checkWin $computer) == true ]]

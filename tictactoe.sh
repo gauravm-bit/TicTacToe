@@ -338,6 +338,14 @@ function checkCornerCondition(){
 		flag2="true"
 	fi
 }
+
+function checkCenter(){
+	if [[ ${board[1,1]} == " " ]]
+	then
+		board[1,1]="$computer"
+		flag3="true"
+	fi
+}
 function checkWin(){
    playerinput=$1
    flag=false
@@ -406,25 +414,29 @@ function computerTurn(){
 			checkCornerCondition
 			if [[ $flag2 == flase ]]
 			then
-      		position=$(( RANDOM%9 + 1 ))
+				checkCenter
+				if [[ $flag3 == false ]]
+				then
+      			position=$(( RANDOM%9 + 1 ))
 
-      		for (( i=0; i<$ROWNUMBER; i++ ))
-      		do
-         		for (( j=0; j<$COLUMNNUMBER; j++ ))
-         		do
-            		if [[ $count == $position ]]
-            		then
-               		if [[ ${board[$i,$j]} == " " ]]
-               		then
-                  		board[$i,$j]=$computer
-               		else
-                  		printf "\nInvalid position by computer\n"
-                  		computerTurn
-               		fi
-            		fi
-         		((count++))
-         		done
-      		done
+      			for (( i=0; i<$ROWNUMBER; i++ ))
+      			do
+         			for (( j=0; j<$COLUMNNUMBER; j++ ))
+         			do
+            			if [[ $count == $position ]]
+            			then
+               			if [[ ${board[$i,$j]} == " " ]]
+               			then
+                  			board[$i,$j]=$computer
+               			else
+                  			printf "\nInvalid position by computer\n"
+                  			computerTurn
+               			fi
+            			fi
+         			((count++))
+         			done
+      			done
+				fi
 			fi
 		fi
 	fi
